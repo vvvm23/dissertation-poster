@@ -1,0 +1,77 @@
+\documentclass[14pt,margin=1in,innermargin=0in,blockverticalspace=-0.1in]{tikzposter}
+\geometry{paperwidth=841mm,paperheight=594mm}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern}
+\usepackage{anyfontsize}
+\usepackage{csquotes}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amsthm}
+\usepackage{amssymb}
+\usepackage{mathrsfs}
+\usepackage{graphicx}
+\usepackage{adjustbox}
+\usepackage{enumitem}
+\usepackage{xcolor}
+\usepackage[backend=biber,style=numeric,sorting=none]{biblatex}
+\usepackage{durham-theme}
+\usepackage{mwe} % for placeholder images
+
+\addbibresource{references.bib}
+
+% set theme parameters
+\tikzposterlatexaffectionproofoff
+\usetheme{DurhamTheme}
+\usecolorstyle{DurhamStyle}
+
+\usepackage[scaled]{helvet}
+\renewcommand\familydefault{\sfdefault} 
+\renewcommand{\vec}[1]{\bm{#1}}
+\newcommand{\Tr}{\text{Tr}}
+\usepackage[T1]{fontenc}
+
+\title{Megapixel Image Generation with Step-unrolled Denoisng Autoencoders}
+\author{\textbf{Alex F. McKinney}\textsuperscript{1},
+\textbf{Dr. Chris G. Willcocks}\textsuperscript{1,2} 
+}
+\institute{\textsuperscript{1}Department of Computer Science, Durham University\\
+            \textsuperscript{2}Project Supervisor
+            }
+\titlegraphic{\includegraphics[width=0.16\linewidth]{durham-logo.png}}
+
+% begin document
+\begin{document}
+\maketitle
+\centering
+\begin{columns}
+    \column{0.32}
+    \block{Block 1}{
+        foobar
+        %\begin{tikzfigure}[High-level overview of a VQ-VAE-2 \cite{razavi2019generating} with 2 levels during the training phase. The model learns to reconstruct input signals given only the discrete latent codes.]
+            %\includegraphics[width=0.9\linewidth]{vqvae.png}
+        %\end{tikzfigure}
+        %\vspace{1em}
+    }
+    
+    \column{0.36}
+    \block{Block 2}{
+        foobar
+        %\begin{tikzfigure}[Left to right, FFHQ-1024 \cite{karras2019stylebased} samples from VD-VAE \cite{child2020deep}, Score-Based \cite{song2021scorebased} and VQ-VAE-2 \cite{razavi2019generating}. VD-VAE fails entirely at this resolution; score-based methods produce high-fidelity samples but fail to capture long-range relationships, such as consistent eye colours; VQ-VAE-2 produces highly realistic samples and captures low-density regions of the distribution (for example, green hair), but suffers from unacceptably slow sampling speeds.]
+            %\includegraphics[width=1.0\linewidth]{samples.png}
+            %\label{fig:sample}
+        %\end{tikzfigure}
+    }
+
+    \column{0.32}
+    \block{Block 3}{
+        foobar
+    }
+
+    \block{References}{
+        \vspace{-1em}
+        \begin{footnotesize}
+        \printbibliography[heading=none]
+        \end{footnotesize}
+    }
+\end{columns}
+\end{document}
