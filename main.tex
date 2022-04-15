@@ -1,4 +1,4 @@
-\documentclass[14pt,margin=1in,innermargin=0in,blockverticalspace=-0.1in]{tikzposter}
+\documentclass[14pt,margin=0.5in,innermargin=0in,blockverticalspace=-0.1in]{tikzposter}
 \geometry{paperwidth=841mm,paperheight=594mm}
 \usepackage[utf8]{inputenc}
 \usepackage{lmodern}
@@ -42,29 +42,62 @@
 % begin document
 \begin{document}
 \maketitle
+
 \centering
+\block{}
+{
+    \vspace{-2cm}
+    \centering
+    %\includegraphics[width=0.95\textwidth]{samples.png}
+    \begin{tikzfigure}[$1024 \times 1024$ samples from the FFHQ-1024 model. Each
+        sample can be generated in $\approx 2$ seconds on a consumer-grade GPU.]
+        \includegraphics[width=1.0\linewidth]{samples.png}
+    \end{tikzfigure}
+}
+
 \begin{columns}
+
     \column{0.32}
     \block{Block 1}{
-        foobar
-        %\begin{tikzfigure}[High-level overview of a VQ-VAE-2 \cite{razavi2019generating} with 2 levels during the training phase. The model learns to reconstruct input signals given only the discrete latent codes.]
-            %\includegraphics[width=0.9\linewidth]{vqvae.png}
-        %\end{tikzfigure}
-        %\vspace{1em}
+        \vspace{-1cm}
+        \begin{tikzfigure}[
+                \textbf{Left:} Visualization of AR sampling. AR sampling
+                proceeds one item at a time, resulting in the number of sampling steps
+                being equal to the dimensionality of the input. For each prediction, a
+                probability distribution over possible tokens is predicted and then
+                sampled from. Each prediction can only make use of past context --
+                indicated as a green position -- so not to violate the autoregressive
+                property.
+                \textbf{Right:} Visualization of NAR sampling. NAR
+                sampling can sample an arbitrary number of items in parallel, including
+                ones previously sampled, allowing for self-correction. It can freely use
+                all context available to it, allowing for flexible inpainting and
+                potentially better predictions.
+            ]
+            \includegraphics[width=0.9\linewidth]{AR-NAR_svg-tex.pdf}
+        \end{tikzfigure}
     }
     
     \column{0.36}
     \block{Block 2}{
-        foobar
-        %\begin{tikzfigure}[Left to right, FFHQ-1024 \cite{karras2019stylebased} samples from VD-VAE \cite{child2020deep}, Score-Based \cite{song2021scorebased} and VQ-VAE-2 \cite{razavi2019generating}. VD-VAE fails entirely at this resolution; score-based methods produce high-fidelity samples but fail to capture long-range relationships, such as consistent eye colours; VQ-VAE-2 produces highly realistic samples and captures low-density regions of the distribution (for example, green hair), but suffers from unacceptably slow sampling speeds.]
-            %\includegraphics[width=1.0\linewidth]{samples.png}
-            %\label{fig:sample}
-        %\end{tikzfigure}
+        \vspace{-1cm}
+        \begin{tikzfigure}[$1024 \times 1024$ samples from the FFHQ-1024 model. Each
+            sample can be generated in $\approx 2$ seconds on a consumer-grade GPU.]
+            \includegraphics[width=0.49\linewidth]{imagenet-lakeside.png}
+            \hfill
+            \includegraphics[width=0.49\linewidth]{imagenet-valley.png}
+        \end{tikzfigure}
     }
 
     \column{0.32}
     \block{Block 3}{
-        foobar
+        \vspace{-1cm}
+        \begin{tikzfigure}[$1024 \times 1024$ samples from the FFHQ-1024 model. Each
+            sample can be generated in $\approx 2$ seconds on a consumer-grade GPU.]
+            \includegraphics[width=0.49\linewidth]{inpaint-rand.png}
+            \hfill
+            \includegraphics[width=0.49\linewidth]{inpaint-block.png}
+        \end{tikzfigure}
     }
 
     \block{References}{
