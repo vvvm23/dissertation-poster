@@ -48,17 +48,21 @@
 {
     \vspace{-2cm}
     \centering
-    %\includegraphics[width=0.95\textwidth]{samples.png}
     \begin{tikzfigure}[$1024 \times 1024$ samples from the FFHQ-1024 model. Each
         sample can be generated in $\approx 2$ seconds on a consumer-grade GPU.]
         \includegraphics[width=1.0\linewidth]{samples.png}
     \end{tikzfigure}
+    \vspace{1cm}
+    \begin{scope}[line width=\titlelinewidth,]
+    \draw[color=colorThree!30!white,round cap-round cap]
+    (\titleposleft,0)--(100,0);
+    \end{scope}
 }
 
 \begin{columns}
 
     \column{0.32}
-    \block{Block 1}{
+    \block{}{
         \vspace{-1cm}
         \begin{tikzfigure}[
                 \textbf{Left:} Visualization of AR sampling. AR sampling
@@ -74,12 +78,12 @@
                 all context available to it, allowing for flexible inpainting and
                 potentially better predictions.
             ]
-            \includegraphics[width=0.9\linewidth]{AR-NAR_svg-tex.pdf}
+            \includegraphics[width=1.1\linewidth]{AR-NAR.pdf}
         \end{tikzfigure}
     }
     
     \column{0.36}
-    \block{Block 2}{
+    \block{}{
         \vspace{-1cm}
         \begin{tikzfigure}[$1024 \times 1024$ samples from the FFHQ-1024 model. Each
             sample can be generated in $\approx 2$ seconds on a consumer-grade GPU.]
@@ -90,7 +94,7 @@
     }
 
     \column{0.32}
-    \block{Block 3}{
+    \block{}{
         \vspace{-1cm}
         \begin{tikzfigure}[$1024 \times 1024$ samples from the FFHQ-1024 model. Each
             sample can be generated in $\approx 2$ seconds on a consumer-grade GPU.]
@@ -100,7 +104,7 @@
         \end{tikzfigure}
     }
 
-    \block{References}{
+    \block{}{
         \vspace{-1em}
         \begin{footnotesize}
         \printbibliography[heading=none]
