@@ -61,7 +61,7 @@
 
 \begin{columns}
 
-    \column{0.32}
+    \column{0.3}
     \block{}{
         \vspace{-1cm}
         \begin{tikzfigure}[
@@ -78,11 +78,20 @@
                 all context available to it, allowing for flexible inpainting and
                 potentially better predictions.
             ]
-            \includegraphics[width=1.1\linewidth]{AR-NAR.pdf}
+            \includegraphics[width=1.0\linewidth]{AR-NAR.pdf}
         \end{tikzfigure}
     }
     
-    \column{0.36}
+    \column{0.4}
+    \block{}{
+        \vspace{-1cm}
+        \begin{tikzfigure}[$1024 \times 1024$ samples from the FFHQ-1024 model. Each
+            sample can be generated in $\approx 2$ seconds on a consumer-grade GPU.]
+            \includegraphics[width=0.99\linewidth]{overall.pdf}
+        \end{tikzfigure}
+    }
+
+    \column{0.3}
     \block{}{
         \vspace{-1cm}
         \begin{tikzfigure}[$1024 \times 1024$ samples from the FFHQ-1024 model. Each
@@ -91,11 +100,7 @@
             \hfill
             \includegraphics[width=0.49\linewidth]{imagenet-valley.png}
         \end{tikzfigure}
-    }
 
-    \column{0.32}
-    \block{}{
-        \vspace{-1cm}
         \begin{tikzfigure}[$1024 \times 1024$ samples from the FFHQ-1024 model. Each
             sample can be generated in $\approx 2$ seconds on a consumer-grade GPU.]
             \includegraphics[width=0.49\linewidth]{inpaint-rand.png}
