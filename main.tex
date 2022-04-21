@@ -32,7 +32,7 @@
 
 \title{Megapixel Image Generation with Step-unrolled Denoisng Autoencoders}
 \author{\textbf{Alex F. McKinney}\textsuperscript{1},
-\textbf{Dr. Chris G. Willcocks}\textsuperscript{1,2} 
+\textbf{Chris G. Willcocks}\textsuperscript{1,2} 
 }
 \institute{\textsuperscript{1}Department of Computer Science, Durham University\\
             \textsuperscript{2}Project Supervisor
@@ -46,13 +46,19 @@
 \centering
 \block{}
 {
-    \vspace{-2cm}
+    \vspace{-2.5cm}
     \centering
-    \begin{tikzfigure}[$1024 \times 1024$ samples from the FFHQ-1024 model. Each
-        sample can be generated in $\approx 2$ seconds on a consumer-grade GPU.]
+    \begin{tikzfigure}[
+            $1024 \times 1024$ samples from our FFHQ1024 model. Resulting
+            samples are diverse and of high-fidelity. Each sample was
+            generated in $\approx 2$ seconds on a consumer-grade GPU, in
+            contrast to existing approaches at this resolution, which take
+            minutes to generate. To our knowledge, this is the fastest
+            generating, non-adversarial framework at this resolution.
+        ]
         \includegraphics[width=1.0\linewidth]{samples.png}
     \end{tikzfigure}
-    \vspace{1cm}
+    \vspace{0.5cm}
     \begin{scope}[line width=\titlelinewidth,]
     \draw[color=colorThree!30!white,round cap-round cap]
     (\titleposleft,0)--(100,0);
@@ -65,28 +71,60 @@
     \block{}{
         \vspace{-1cm}
         \begin{tikzfigure}[
-                \textbf{Left:} Visualization of AR sampling. AR sampling
-                proceeds one item at a time, resulting in the number of sampling steps
-                being equal to the dimensionality of the input. For each prediction, a
-                probability distribution over possible tokens is predicted and then
-                sampled from. Each prediction can only make use of past context --
-                indicated as a green position -- so not to violate the autoregressive
-                property.
-                \textbf{Right:} Visualization of NAR sampling. NAR
-                sampling can sample an arbitrary number of items in parallel, including
-                ones previously sampled, allowing for self-correction. It can freely use
-                all context available to it, allowing for flexible inpainting and
-                potentially better predictions.
+                Autoregressive sampling (left) is defined in terms of the
+                probabilistic chain rule, meaning that sampling is done
+                iteratively -- one element at a time -- so not to violate
+                causality. Non-autoregressive sampling (right) does not have
+                such constraints, and can sample an arbitrary number of elements
+                in parallel. Crucially, this means the iteration complexity of
+                sampling does not scale directly with data dimensionality, allowing
+                massive scaleability. In addition, it can use the full context
+                available to it, in order to make predictions, allowing for
+                better quality samples and more flexible inpainting. Despite
+                such advantages, non-adversarial, non-autoregressive generative
+                models have not seen widespread adoption, due to requiring
+                many sampling steps -- potentially thousands.
             ]
             \includegraphics[width=1.0\linewidth]{AR-NAR.pdf}
+        \end{tikzfigure}
+        
+        \begin{tikzfigure}[
+                VQGAN is used to reduce computational requirements for training
+                and sampling of our generator model SUNDAE. It acts as a
+                compression model, reducing the spatial resolution at which we
+                operate over. However, VQGAN does not always faithfully
+                reproduce the input image, though outputs are perceptually
+                valid. For example, left shows a change in eye colour and the
+                concealment of a piercing by adjusting hair position. Middle has
+                its hair texture changed. Right has piercings removed and text
+                corruption. Despite this, VQGAN is the only model capable of
+                producing the compression rates we need.
+            ]
+            \includegraphics[width=0.99\linewidth]{recon.pdf}
         \end{tikzfigure}
     }
     
     \column{0.4}
     \block{}{
         \vspace{-1cm}
-        \begin{tikzfigure}[$1024 \times 1024$ samples from the FFHQ-1024 model. Each
-            sample can be generated in $\approx 2$ seconds on a consumer-grade GPU.]
+        \begin{tikzfigure}[
+                An overview of the SUNDAE training and sampling of discrete
+                latent representations. Above the dashed line represents the
+                process for training, whereas below the dotted line represents
+                the sampling process. The training process begins by sampling
+                $\mathbf{z} \sim \mathcal{L}$ and then sampling from the
+                corruption distribution $q(\mathbf{z}_0 \vert \mathbf{z})$.
+                SUNDAE then denoises for 2 to 3 steps, computing the
+                cross-entropy loss at each step in the chain which is
+                subsequently averaged to produce a final loss. Sampling begins
+                by obtaining $\mathbf{z}_0$ from a uniform prior and iteratively
+                denoising for more steps than trained with. At each step in the
+                chain, the sample $\mathbf{z}_t$ can be decoded by the VQGAN
+                decoder $G$ to obtain $\mathbf{y}_t$. We found SUNDAE to easily
+                outspeed prior (non-adversarial) autoregressive and
+                non-autoregressive models, using typically 50-100 steps during
+                sampling, or in about 2 seconds.
+            ]
             \includegraphics[width=0.99\linewidth]{overall.pdf}
         \end{tikzfigure}
     }
@@ -94,21 +132,39 @@
     \column{0.3}
     \block{}{
         \vspace{-1cm}
-        \begin{tikzfigure}[$1024 \times 1024$ samples from the FFHQ-1024 model. Each
-            sample can be generated in $\approx 2$ seconds on a consumer-grade GPU.]
+        \begin{tikzfigure}[
+                $256 \times 256$ class-conditioned samples on
+                ImageNet. The left batch of samples are from the class
+                ``Lakeside'' whereas the right batch are from the class
+                ''Valley''. We trained on the full 1000 classes available in the
+                dataset, using a simple embedding vectors as a conditioning
+                signal. We note, that our approach can easily be extended to
+                obtain a powerful text-to-image generator, by using text prompts
+                as a conditioning signal.
+            ]
             \includegraphics[width=0.49\linewidth]{imagenet-lakeside.png}
             \hfill
             \includegraphics[width=0.49\linewidth]{imagenet-valley.png}
         \end{tikzfigure}
+        
+        \vfill
 
-        \begin{tikzfigure}[$1024 \times 1024$ samples from the FFHQ-1024 model. Each
-            sample can be generated in $\approx 2$ seconds on a consumer-grade GPU.]
+        \begin{tikzfigure}[
+                Representative inpainting results on FFHQ1024 using our trained
+                model. We demonstrate the superiority of non-autoregressive
+                methods for inpainting by using arbitrary inpainting masks,
+                including completely random (Left) and large block masks
+                (Right). Such patterns are difficult to inpaint with
+                autoregressive models, and cannot utilise the full context
+                available to them.
+            ]
             \includegraphics[width=0.49\linewidth]{inpaint-rand.png}
             \hfill
             \includegraphics[width=0.49\linewidth]{inpaint-block.png}
         \end{tikzfigure}
     }
 
+    % TODO: potentially a manual bibliography of relevant literature
     \block{}{
         \vspace{-1em}
         \begin{footnotesize}
