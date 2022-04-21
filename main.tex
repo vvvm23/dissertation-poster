@@ -50,8 +50,8 @@
     \centering
     \begin{tikzfigure}[
             $1024 \times 1024$ samples from our FFHQ1024 model. Resulting
-            samples are diverse and of high-fidelity. Each sample was
-            generated in $\approx 2$ seconds on a consumer-grade GPU, in
+            samples are diverse and of high-fidelity. Each sample was generated
+            in $\approx 2$ seconds on a consumer-grade GPU (GTX 1080Ti), in
             contrast to existing approaches at this resolution, which take
             minutes to generate. To our knowledge, this is the fastest
             generating, non-adversarial framework at this resolution.
@@ -127,6 +127,46 @@
             ]
             \includegraphics[width=0.99\linewidth]{overall.pdf}
         \end{tikzfigure}
+        
+        The objective of this project was to push the efficiency of generative
+        models to their limit and expand the array of non-autoregressive methods
+        for image generation. By combining various methods -- each at the
+        pinnacle of efficiency in their respective areas. These include VQGAN, a
+        vector quantization model with an unparalleled rate of compression;
+        hourglass transformers, a highly scaleable attention model; and SUNDAE,
+        a fast, non-autoregressive text generative model.
+
+        Our primary contributions are as follows:
+        \begin{itemize}
+            \item
+                The development of a non-autoregressive, non-adversarial
+                generative modelling framework with extremely flexible sampling
+                including self-correction and arbitrary inpainting pattern
+                capabilities. The model can be directly configured for both low-
+                and high-step sampling scenarios, resulting in high quality and
+                diverse samples in mere seconds of sampling time.
+
+            \item
+                Modifications to SUNDAE and hourglass transformers to be more
+                suited for the modelling of multi-dimensional discrete data. Though
+                applied to discrete latents in our work, the modifications are
+                also applicable in a wider context, such as to pixel-level
+                modelling. We also demonstrate the superiority of hierarchical
+                transformers -- forming a key component in the scalability of
+                our approach. 
+
+            \item
+                The scaling of VQGAN to extremely high resolution images of
+                human faces. $1024 \times 1024$ images far exceeds resolutions
+                achieved in prior work. This ultimately allowed for the
+                \textbf{generation of megapixel images in as few as two seconds}
+                on a consumer-grade GPU when combined with our fast and scalable
+                generative framework. This is in contrast to prior
+                autoregressive methods and non-autoregressive diffusion methods
+                that take minutes to generate, or have not scaled to such
+                resolutions entirely.
+
+        \end{itemize}
     }
 
     \column{0.3}
