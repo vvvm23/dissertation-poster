@@ -1,3 +1,4 @@
+% TODO: tcolorbox
 \documentclass[14pt,margin=0.5in,innermargin=0in,blockverticalspace=-0.1in]{tikzposter}
 \geometry{paperwidth=841mm,paperheight=594mm}
 \usepackage[utf8]{inputenc}
@@ -16,6 +17,9 @@
 \usepackage[backend=biber,style=numeric,sorting=none]{biblatex}
 \usepackage{durham-theme}
 \usepackage{mwe} % for placeholder images
+
+\usepackage{caption}
+\captionsetup[figure]{font=normal,labelfont=normal}
 
 \addbibresource{references.bib}
 
@@ -48,16 +52,18 @@
 {
     \vspace{-2.5cm}
     \centering
-    \begin{tikzfigure}[
+    \begin{tikzfigure}
+        \includegraphics[width=1.0\linewidth]{samples.png}
+    \end{tikzfigure}
+    \captionof{figure}{
+            \centering
             $1024 \times 1024$ samples from our FFHQ1024 model. Resulting
             samples are diverse and of high-fidelity. Each sample was generated
             in $\approx 2$ seconds on a consumer-grade GPU (GTX 1080Ti), in
             contrast to existing approaches at this resolution, which take
             minutes to generate. To our knowledge, this is the fastest
             generating, non-adversarial framework at this resolution.
-        ]
-        \includegraphics[width=1.0\linewidth]{samples.png}
-    \end{tikzfigure}
+        }
     \vspace{0.5cm}
     \begin{scope}[line width=\titlelinewidth,]
     \draw[color=colorThree!30!white,round cap-round cap]
@@ -70,7 +76,10 @@
     \column{0.3}
     \block{}{
         \vspace{-1cm}
-        \begin{tikzfigure}[
+        \begin{tikzfigure}
+            \includegraphics[width=1.0\linewidth]{AR-NAR.pdf}
+        \end{tikzfigure}
+        \captionof{figure}{
                 Autoregressive sampling (left) is defined in terms of the
                 probabilistic chain rule, meaning that sampling is done
                 iteratively -- one element at a time -- so not to violate
@@ -84,11 +93,12 @@
                 such advantages, non-adversarial, non-autoregressive generative
                 models have not seen widespread adoption, due to requiring
                 many sampling steps -- potentially thousands.
-            ]
-            \includegraphics[width=1.0\linewidth]{AR-NAR.pdf}
-        \end{tikzfigure}
+            }
         
-        \begin{tikzfigure}[
+        \begin{tikzfigure}
+            \includegraphics[width=0.99\linewidth]{recon.pdf}
+        \end{tikzfigure}
+        \captionof{figure}{
                 VQGAN is used to reduce computational requirements for training
                 and sampling of our generator model SUNDAE. It acts as a
                 compression model, reducing the spatial resolution at which we
@@ -99,15 +109,16 @@
                 its hair texture changed. Right has piercings removed and text
                 corruption. Despite this, VQGAN is the only model capable of
                 producing the compression rates we need.
-            ]
-            \includegraphics[width=0.99\linewidth]{recon.pdf}
-        \end{tikzfigure}
+            }
     }
     
     \column{0.4}
     \block{}{
         \vspace{-1cm}
-        \begin{tikzfigure}[
+        \begin{tikzfigure}
+            \includegraphics[width=0.99\linewidth]{overall.pdf}
+        \end{tikzfigure}
+        \captionof{figure}{
                 An overview of the SUNDAE training and sampling of discrete
                 latent representations. Above the dashed line represents the
                 process for training, whereas below the dotted line represents
@@ -124,10 +135,9 @@
                 outspeed prior (non-adversarial) autoregressive and
                 non-autoregressive models, using typically 50-100 steps during
                 sampling, or in about 2 seconds.
-            ]
-            \includegraphics[width=0.99\linewidth]{overall.pdf}
-        \end{tikzfigure}
-        
+            }
+        \vspace{1cm}
+
         The objective of this project was to push the efficiency of generative
         models to their limit and expand the array of non-autoregressive methods
         for image generation. By combining various methods -- each at the
@@ -171,7 +181,11 @@
     \column{0.3}
     \block{}{
         \vspace{-1cm}
-        \begin{tikzfigure}[
+        \begin{tikzfigure}
+            \includegraphics[width=0.49\linewidth]{imagenet-lakeside.png}
+            \hfill
+            \includegraphics[width=0.49\linewidth]{imagenet-valley.png}
+            \captionof{figure}{
                 $256 \times 256$ class-conditioned samples on
                 ImageNet. The left batch of samples are from the class
                 ``Lakeside'' whereas the right batch are from the class
@@ -180,15 +194,16 @@
                 signal. We note, that our approach can easily be extended to
                 obtain a powerful text-to-image generator, by using text prompts
                 as a conditioning signal.
-            ]
-            \includegraphics[width=0.49\linewidth]{imagenet-lakeside.png}
-            \hfill
-            \includegraphics[width=0.49\linewidth]{imagenet-valley.png}
+            }
         \end{tikzfigure}
         
         \vfill
 
-        \begin{tikzfigure}[
+        \begin{tikzfigure}
+            \includegraphics[width=0.49\linewidth]{inpaint-rand.png}
+            \hfill
+            \includegraphics[width=0.49\linewidth]{inpaint-block.png}
+            \captionof{figure}{
                 Representative inpainting results on FFHQ1024 using our trained
                 model. We demonstrate the superiority of non-autoregressive
                 methods for inpainting by using arbitrary inpainting masks,
@@ -196,16 +211,15 @@
                 (Right). Such patterns are difficult to inpaint with
                 autoregressive models, and cannot utilise the full context
                 available to them.
-            ]
-            \includegraphics[width=0.49\linewidth]{inpaint-rand.png}
-            \hfill
-            \includegraphics[width=0.49\linewidth]{inpaint-block.png}
+            }
         \end{tikzfigure}
     }
 
     % TODO: potentially a manual bibliography of relevant literature
     \block{}{
-        \vspace{-1em}
+        \textbf{\large References:}
+        \nocite{*}
+        %\vspace{-1em}
         \begin{footnotesize}
         \printbibliography[heading=none]
         \end{footnotesize}
