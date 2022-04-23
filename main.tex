@@ -17,6 +17,7 @@
 \usepackage{durham-theme}
 \usepackage{mwe} % for placeholder images
 \usepackage{tcolorbox}
+\usepackage{multicol}
 
 \usepackage{caption}
 \captionsetup[figure]{font=normal,labelfont=bf}
@@ -144,8 +145,20 @@
                 non-autoregressive models, using typically 50-100 steps during
                 sampling, or in about 2 seconds.
             }
-        \vspace{1cm}
+        %\vspace{1cm}
 
+        \begin{minipage}{0.49\linewidth}
+        \begin{equation}
+            x
+        \end{equation}
+        \end{minipage}
+        \begin{minipage}{0.49\linewidth}
+        \begin{equation}
+            x
+        \end{equation}
+        \end{minipage}
+        \vspace{1cm}
+        
         The objective of this project was to push the efficiency of generative
         models to their limit and expand the array of non-autoregressive methods
         for image generation. By combining various methods -- each at the
