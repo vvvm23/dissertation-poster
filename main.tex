@@ -1,5 +1,4 @@
-% TODO: tcolorbox
-\documentclass[14pt,margin=0.5in,innermargin=0in,blockverticalspace=-0.1in]{tikzposter}
+\documentclass[14pt,margin=0.5in,innermargin=0in,blockverticalspace=-0.1in,colspace=-1.0cm]{tikzposter}
 \geometry{paperwidth=841mm,paperheight=594mm}
 \usepackage[utf8]{inputenc}
 \usepackage{lmodern}
@@ -17,6 +16,7 @@
 \usepackage[backend=biber,style=numeric,sorting=none]{biblatex}
 \usepackage{durham-theme}
 \usepackage{mwe} % for placeholder images
+\usepackage{tcolorbox}
 
 \usepackage{caption}
 \captionsetup[figure]{font=normal,labelfont=normal}
@@ -66,7 +66,7 @@
         }
     \vspace{0.5cm}
     \begin{scope}[line width=\titlelinewidth,]
-    \draw[color=colorThree!30!white,round cap-round cap]
+    \draw[color=colorOne!30!colorOne,round cap-round cap]
     (\titleposleft,0)--(100,0);
     \end{scope}
 }
@@ -76,9 +76,12 @@
     \column{0.3}
     \block{}{
         \vspace{-1cm}
+        \begin{tcolorbox}[boxsep=0pt,top=0cm,title={\Large
+            Background},colbacktitle=colorOne]
         \begin{tikzfigure}
             \includegraphics[width=1.0\linewidth]{AR-NAR.pdf}
         \end{tikzfigure}
+        \vspace{-0.5cm}
         \captionof{figure}{
                 Autoregressive sampling (left) is defined in terms of the
                 probabilistic chain rule, meaning that sampling is done
@@ -98,6 +101,7 @@
         \begin{tikzfigure}
             \includegraphics[width=0.99\linewidth]{recon.pdf}
         \end{tikzfigure}
+        \vspace{-1.0cm}
         \captionof{figure}{
                 VQGAN is used to reduce computational requirements for training
                 and sampling of our generator model SUNDAE. It acts as a
@@ -110,14 +114,18 @@
                 corruption. Despite this, VQGAN is the only model capable of
                 producing the compression rates we need.
             }
+            
+        \end{tcolorbox}
     }
     
     \column{0.4}
     \block{}{
         \vspace{-1cm}
+        \begin{tcolorbox}[boxsep=0pt,top=0cm,title={\Large Proposed Method},colbacktitle=colorOne]
         \begin{tikzfigure}
             \includegraphics[width=0.99\linewidth]{overall.pdf}
         \end{tikzfigure}
+        \vspace{-0.5cm}
         \captionof{figure}{
                 An overview of the SUNDAE training and sampling of discrete
                 latent representations. Above the dashed line represents the
@@ -176,11 +184,13 @@
                 resolutions entirely.
 
         \end{itemize}
+        \end{tcolorbox}
     }
 
     \column{0.3}
     \block{}{
         \vspace{-1cm}
+        \begin{tcolorbox}[boxsep=0pt,top=0cm,title={\Large Results},colbacktitle=colorOne]
         \begin{tikzfigure}
             \includegraphics[width=0.49\linewidth]{imagenet-lakeside.png}
             \hfill
@@ -213,16 +223,20 @@
                 available to them.
             }
         \end{tikzfigure}
+        \end{tcolorbox}
     }
 
     % TODO: potentially a manual bibliography of relevant literature
     \block{}{
-        \textbf{\large References:}
+        \vspace{-1cm}
+        \begin{tcolorbox}[boxsep=0pt,top=0cm,title={\Large
+            References},colbacktitle=colorOne]
         \nocite{*}
-        %\vspace{-1em}
+        \vspace{0.4cm}
         \begin{footnotesize}
         \printbibliography[heading=none]
         \end{footnotesize}
+        \end{tcolorbox}
     }
 \end{columns}
 \end{document}
