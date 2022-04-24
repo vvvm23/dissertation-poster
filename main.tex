@@ -77,7 +77,7 @@
     \column{0.3}
     \block{}{
         \vspace{-1cm}
-        \begin{tcolorbox}[boxsep=0pt,top=0cm,adjusted title={\Large
+        \begin{tcolorbox}[boxsep=0pt,top=0cm,bottom=1.1cm,adjusted title={\Large\bf
             Background},colbacktitle=colorOne]
         \begin{tikzfigure}
             \includegraphics[width=1.0\linewidth]{AR-NAR.pdf}
@@ -130,7 +130,7 @@
     \column{0.4}
     \block{}{
         \vspace{-1cm}
-        \begin{tcolorbox}[boxsep=0pt,top=0cm,adjusted title={\Large Proposed Method},colbacktitle=colorOne]
+        \begin{tcolorbox}[boxsep=0pt,top=0cm,adjusted title={\Large\bf Proposed Method},colbacktitle=colorOne]
         \begin{tikzfigure}
             \includegraphics[width=0.99\linewidth]{overall.pdf}
         \end{tikzfigure}
@@ -150,25 +150,58 @@
                 (non-adversarial) non-autoregressive models, using typically
                 50-100 steps ($\approx$ 2 seconds) during sampling.
             }
-        %\vspace{1cm}
+        \vspace{-0.6cm}
 
-        \begin{minipage}{0.49\linewidth}
-        \begin{equation}
-            x
-        \end{equation}
+        \begin{minipage}{0.40\linewidth}
+            \begin{align*}
+            \begin{split}
+                L_\text{PIX} &= \alpha_\text{PIX} \cdot |\mathbf{x} -
+                \hat{\mathbf{x}}| \cdot \\
+                L_\text{GAN} &= \alpha_\text{GAN} \cdot \left(\log D(\mathbf{x}) + \log
+                (1-D(\hat{\mathbf{x}}))\right) \\
+                L &= L_\text{VQ} + \lambda \cdot L_\text{GAN}
+            \end{split}
+            \end{align*}
         \end{minipage}
-        \begin{minipage}{0.49\linewidth}
-        \begin{equation}
-            x
-        \end{equation}
+        \begin{minipage}{0.59\linewidth}
+            \begin{align*}
+            \begin{split}
+                L_\text{VQ} &= \alpha_\text{VQ} \cdot \left(||\hat{\mathbf{z}} -
+                \mathbf{z}||^2 + ||sg[E(\mathbf{x})] - \mathbf{z}||^2_2 +
+                ||E(\mathbf{x}) -
+                sg[\mathbf{z}]||^2_2\right)\\
+                \lambda &= \frac{\nabla_{G_{-1}}[L_\text{PIX} +
+                L_\text{PER}]}{\nabla_{G_{-1}}[L_\text{GAN}] + \epsilon}\\
+                \alpha_\text{PIX} &= 1.0,\; \alpha_\text{VQ} = 1.0,\; \alpha_\text{GAN} = 0.5,\; \alpha_\text{PER} = 1.0
+            \end{split}
+            \end{align*}
         \end{minipage}
-        \vspace{1cm}
-        
+        \vspace{0.4cm}
+
+        \textbf{Equation 1:} Loss function for our VQ-GAN model trained on $1024
+        \times 1024$ images.
+        \vspace{0.3cm}
+
+        %\begin{align}
+        %\begin{split}
+            %L_\text{PIX} &= \alpha_\text{PIX} \cdot |\image - \hat{\image}| \cdot \\
+            %L_\text{VQ} &= \alpha_\text{VQ} \cdot \left(||\hat{\latent} -
+            %\latent||^2 + ||sg[\vqganEncoder(x)] - \latent||^2_2 + ||\vqganEncoder(x) -
+            %sg[\latent]||^2_2\right)\\
+            %L_\text{GAN} &= \alpha_\text{GAN} \cdot \left(\log D(x) + \log
+            %(1-D(\hat{x}))\right) \\
+            %\lambda &= \frac{\nabla_{G_{-1}}[L_\text{PIX} +
+            %L_\text{PER}]}{\nabla_{G_{-1}}[L_\text{GAN}] + \epsilon}\\
+            %L &= L_\text{VQ} + \lambda \cdot L_\text{GAN}\\
+            %\alpha_\text{PIX} &= 1.0,\; \alpha_\text{VQ} = 1.0,\; \alpha_\text{GAN} = 0.5,\; \alpha_\text{PER} = 1.0
+        %\end{split}
+        %\end{align}
+
         \large
         The objective of this project was to push the efficiency of generative
         models to their limit and expand the array of non-autoregressive methods
         for image generation. By combining various methods -- each at the
-        pinnacle of efficiency in their respective areas. These include VQGAN, a
+        pinnacle of efficiency in their respective areas. These include VQ-GAN, a
         vector quantization model with an unparalleled rate of compression;
         hourglass transformers, a highly scaleable attention model; and SUNDAE,
         a fast, non-autoregressive text generative model.
@@ -178,28 +211,30 @@
             \item
                 The development of a non-autoregressive, non-adversarial
                 generative modelling framework with extremely flexible sampling
-                including self-correction and arbitrary inpainting pattern
-                capabilities. The model can be directly configured for both low-
-                and high-step sampling scenarios, resulting in high quality and
-                diverse samples in mere seconds of sampling time.
+                and capabilities for self-correction, self-stopping, conditional
+                generation, and arbitrary inpainting patterns. The model can be
+                directly configured for both low- and high-step sampling
+                scenarios, resulting in high quality and diverse samples in 
+                seconds of sampling time.
 
             \item
-                Modifications to SUNDAE and hourglass transformers to be more
-                suited for the modelling of multi-dimensional discrete data. Though
-                applied to discrete latents in our work, the modifications are
-                also applicable in a wider context, such as to pixel-level
-                modelling. We also demonstrate the superiority of hierarchical
-                transformers -- forming a key component in the scalability of
-                our approach. 
+                Addressing flaws in the original formulation of SUNDAE and
+                hourglass transformers to be more suited for the modelling of
+                multi-dimensional discrete data. Though applied to discrete
+                latents in our work, the modifications are also applicable in a
+                wider context, such as to pixel-level modelling. We also
+                demonstrate the superiority of hierarchical transformers --
+                forming a key component in the scalability of our approach. 
+
             \item
-                The scaling of VQGAN to extremely high resolution images of
-                human faces. $1024 \times 1024$ images far exceeds resolutions
-                achieved in prior work. This ultimately allowed for the
-                \textbf{generation of megapixel images in as few as two seconds}
-                on a consumer-grade GPU when combined with our fast and scalable
-                generative framework. This is in contrast to prior
+                The scaling of VQ-GAN to extremely high resolution ($1024 \times
+                1024$) images of human faces. This resolution far exceeds
+                resolutions achieved in prior work with VQ-GAN. This allowed for
+                the \textbf{generation of megapixel images in as few as two
+                seconds} on a consumer-grade GPU when combined with our fast and
+                scalable generative framework. This is in contrast to prior
                 autoregressive methods and non-autoregressive diffusion methods
-                that take minutes to generate, or have not scaled to such
+                that take minutes to generate, or cannot scale to such
                 resolutions entirely.
 
         \end{itemize}
@@ -209,7 +244,7 @@
     \column{0.3}
     \block{}{
         \vspace{-1cm}
-        \begin{tcolorbox}[boxsep=0pt,top=0cm,adjusted title={\Large Results},colbacktitle=colorOne]
+        \begin{tcolorbox}[boxsep=0pt,top=0cm,bottom=1.0cm,adjusted title={\Large\bf Results},colbacktitle=colorOne]
         \begin{tikzfigure}
             \includegraphics[width=0.49\linewidth]{imagenet-lakeside.png}
             \hfill
