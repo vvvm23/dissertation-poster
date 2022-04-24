@@ -20,7 +20,7 @@
 \usepackage{multicol}
 
 \usepackage{caption}
-\captionsetup[figure]{font=normal,labelfont=bf}
+\captionsetup[figure]{font=large,labelfont=bf}
 
 \addbibresource{references.bib}
 
@@ -62,8 +62,8 @@
             samples are diverse and of high-fidelity. Each sample was generated
             in $\approx 2$ seconds on a consumer-grade GPU (GTX 1080Ti), in
             contrast to existing approaches at this resolution, which take
-            minutes to generate. To our knowledge, this is the fastest
-            generating, non-adversarial framework at this resolution.
+            minutes to generate. To our knowledge, this is the fastest sampling,
+            non-adversarial generative framework at this resolution.
         }
     \vspace{0.5cm}
     \begin{scope}[line width=\titlelinewidth,]
@@ -85,35 +85,43 @@
         \vspace{-0.5cm}
         \captionof{figure}{
                 Autoregressive sampling (left) is defined in terms of the
-                probabilistic chain rule, meaning that sampling is done
-                iteratively -- one element at a time -- so not to violate
-                causality. Non-autoregressive sampling (right) does not have
-                such constraints, and can sample an arbitrary number of elements
-                in parallel. Crucially, this means the iteration complexity of
-                sampling does not scale directly with data dimensionality, allowing
-                massive scaleability. In addition, it can use the full context
-                available to it, in order to make predictions, allowing for
-                better quality samples and more flexible inpainting. Despite
-                such advantages, non-adversarial, non-autoregressive generative
-                models have not seen widespread adoption, due to requiring
-                many sampling steps -- potentially thousands.
+                probabilistic chain rule, so sampling is done iteratively with
+                complexity $\mathcal{O}(n)$. Non-autoregressive sampling (right)
+                can sample an arbitrary number of elements in parallel, so
+                number of steps does not scale with input size. It can also use
+                the full context available to it, resulting in better quality
+                samples and flexible inpainting. However, existing NAR methods
+                still typically require many network evaluations to produce
+                meaningful samples.
+                %Autoregressive sampling (left) is defined in terms of the
+                %probabilistic chain rule, meaning that sampling is done
+                %iteratively -- one element at a time -- so not to violate
+                %causality. Non-autoregressive sampling (right) does not have
+                %such constraints, and can sample an arbitrary number of elements
+                %in parallel. Crucially, this means the iteration complexity of
+                %sampling does not scale directly with data dimensionality, allowing
+                %massive scaleability. In addition, it can use the full context
+                %available to it, in order to make predictions, allowing for
+                %better quality samples and more flexible inpainting. Despite
+                %such advantages, non-adversarial, non-autoregressive generative
+                %models have not seen widespread adoption, due to requiring
+                %many sampling steps -- potentially thousands.
             }
         
+        \vspace{-1cm}
+
         \begin{tikzfigure}
             \includegraphics[width=0.99\linewidth]{recon.pdf}
         \end{tikzfigure}
         \vspace{-1.0cm}
         \captionof{figure}{
-                VQGAN is used to reduce computational requirements for training
-                and sampling of our generator model SUNDAE. It acts as a
-                compression model, reducing the spatial resolution at which we
-                operate over. However, VQGAN does not always faithfully
-                reproduce the input image, though outputs are perceptually
-                valid. For example, left shows a change in eye colour and the
-                concealment of a piercing by adjusting hair position. Middle has
-                its hair texture changed. Right has piercings removed and text
-                corruption. Despite this, VQGAN is the only model capable of
-                producing the compression rates we need.
+                VQ-GAN is used to reduce computational requirements for training
+                and sampling of generative models by acting as a compression
+                model. VQ-GAN does not always faithfully reproduce the input
+                image, though outputs are perceptually valid. For example, left
+                shows a change in eye colour and the concealment of a piercing
+                by adjusting hair position. Middle has its hair texture changed.
+                Right has piercings removed and text corruption.
             }
             
         \end{tcolorbox}
@@ -138,12 +146,9 @@
                 cross-entropy loss at each step in the chain which is
                 subsequently averaged to produce a final loss. Sampling begins
                 by obtaining $\mathbf{z}_0$ from a uniform prior and iteratively
-                denoising for more steps than trained with. At each step in the
-                chain, the sample $\mathbf{z}_t$ can be decoded by the VQGAN
-                decoder $G$ to obtain $\mathbf{y}_t$. We found SUNDAE to easily
-                outspeed prior (non-adversarial) autoregressive and
-                non-autoregressive models, using typically 50-100 steps during
-                sampling, or in about 2 seconds.
+                denoising. SUNDAE easily outspeeds prior autoregressive and
+                (non-adversarial) non-autoregressive models, using typically
+                50-100 steps ($\approx$ 2 seconds) during sampling.
             }
         %\vspace{1cm}
 
@@ -159,6 +164,7 @@
         \end{minipage}
         \vspace{1cm}
         
+        \large
         The objective of this project was to push the efficiency of generative
         models to their limit and expand the array of non-autoregressive methods
         for image generation. By combining various methods -- each at the
@@ -209,18 +215,15 @@
             \hfill
             \includegraphics[width=0.49\linewidth]{imagenet-valley.png}
             \captionof{figure}{
-                $256 \times 256$ class-conditioned samples on
-                ImageNet. The left batch of samples are from the class
-                ``Lakeside'' whereas the right batch are from the class
-                ''Valley''. We trained on the full 1000 classes available in the
-                dataset, using a simple embedding vectors as a conditioning
-                signal. We note, that our approach can easily be extended to
-                obtain a powerful text-to-image generator, by using text prompts
-                as a conditioning signal.
+                $256 \times 256$ class-conditioned samples on ImageNet. The left
+                batch of samples are from the class ``Lakeside'' whereas the
+                right batch are from the class ``Valley''. We note, that our
+                approach can be extended to use text prompts as a conditioning
+                signal, yielding a text-to-image model.
             }
         \end{tikzfigure}
         
-        \vfill
+        \vspace{-1cm}
 
         \begin{tikzfigure}
             \includegraphics[width=0.49\linewidth]{inpaint-rand.png}
@@ -228,10 +231,10 @@
             \includegraphics[width=0.49\linewidth]{inpaint-block.png}
             \captionof{figure}{
                 Representative inpainting results on FFHQ1024 using our trained
-                model. We demonstrate the superiority of non-autoregressive
+                model. We demonstrate the superiority of NAR
                 methods for inpainting by using arbitrary inpainting masks,
-                including completely random (Left) and large block masks
-                (Right). Such patterns are difficult to inpaint with
+                including completely random (left) and large block masks
+                (right). Such patterns are difficult to inpaint with using 
                 autoregressive models, and cannot utilise the full context
                 available to them.
             }
