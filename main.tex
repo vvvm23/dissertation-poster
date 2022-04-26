@@ -98,13 +98,13 @@
         {
             \Large
             \begin{itemize}
-                \item Autoregressive sampling (left) is defined by the
+                \item[--] Autoregressive sampling (left) is defined by the
                     probabilistic chain rule. This means sampling is done
                     iteratively with complexity $\mathcal{O}(n)$.
-                \item Non-autoregressive sampling (right) samples an arbitrary
+                \item[--] Non-autoregressive sampling (right) samples an arbitrary
                     number of elements in parallel and does not scale with input
                     size $n$, but may still require thousands of evaluations.
-                \item AR sampling is limited to using past context, whereas NAR
+                \item[--] AR sampling is limited to using past context, whereas NAR
                     can use all context available to it.
             \end{itemize}
         }
@@ -128,9 +128,9 @@
         {
             \Large
             \begin{itemize}
-                \item VQ-GAN is used to reduce computational requirements in
+                \item[--] VQ-GAN is used to reduce computational requirements in
                     generative models by compressing the input.
-                \item It offers a higher compression rate than prior work, but
+                \item[--] It offers a higher compression rate than prior work, but
                     does not always faithfully reconstruct the input, for
                     example the left changes the eye colour, and the right has
                     piercings removed.
@@ -143,31 +143,57 @@
     \column{0.4}
     \block{}{
         \vspace{-1cm}
-        \begin{tcolorbox}[boxsep=0pt,top=0cm,adjusted title={\huge\bf Proposed Method},colbacktitle=colorOne]
+        \begin{tcolorbox}[boxsep=0pt,top=0cm,bottom=0.6cm,adjusted title={\huge\bf Proposed Method},colbacktitle=colorOne]
         \begin{tikzfigure}
             \includegraphics[width=0.99\linewidth]{overall.pdf}
         \end{tikzfigure}
         \vspace{-0.5cm}
-        \captionof{figure}{
-                An overview of the SUNDAE training and sampling of discrete
-                latent representations. Above the dashed line represents the
-                process for training, whereas below the dotted line represents
-                the sampling process. The training process begins by sampling
-                $\mathbf{z} \sim \mathcal{L}$ and then sampling from the
-                corruption distribution $q(\mathbf{z}_0 \vert \mathbf{z})$.
-                SUNDAE then denoises for 2 to 3 steps, computing the
-                cross-entropy loss at each step in the chain which is
-                subsequently averaged to produce a final loss. Sampling begins
-                by obtaining $\mathbf{z}_0$ from a uniform prior and iteratively
-                denoising. SUNDAE easily outspeeds prior autoregressive and
-                (non-adversarial) non-autoregressive models, using typically
-                50-100 steps ($\approx$ 2 seconds) during sampling.
-            }
-        \vspace{-0.3cm}
+        %\captionof{figure}{
+                %An overview of the SUNDAE training and sampling of discrete
+                %latent representations. Above the dashed line represents the
+                %process for training, whereas below the dotted line represents
+                %the sampling process. The training process begins by sampling
+                %$\mathbf{z} \sim \mathcal{L}$ and then sampling from the
+                %corruption distribution $q(\mathbf{z}_0 \vert \mathbf{z})$.
+                %SUNDAE then denoises for 2 to 3 steps, computing the
+                %cross-entropy loss at each step in the chain which is
+                %subsequently averaged to produce a final loss. Sampling begins
+                %by obtaining $\mathbf{z}_0$ from a uniform prior and iteratively
+                %denoising. SUNDAE easily outspeeds prior autoregressive and
+                %(non-adversarial) non-autoregressive models, using typically
+                %50-100 steps ($\approx$ 2 seconds) during sampling.
+            %}
+        %\vspace{-0.3cm}
 
-        \begin{minipage}{0.40\linewidth}
+        {
+            \Large
+            An overview of our proposed training and sampling method:
+            \begin{itemize}
+                \item[--] Above the dashed line shows the training process,
+                    beginning by sampling a corrupted sample $\mathbf{z}_0 \sim
+                    q( \cdot \vert \mathbf{z})$. SUNDAE denoises for 2 to 3
+                    steps, and averages cross entropy losses at each step in the
+                    Markov chain.
+                \item[--] Below the dotted line shows the sampling process,
+                    beginning by sampling $\mathbf{z}_0$ from a uniform prior
+                    distribution. SUNDAE denoises for $T \gg 3$ steps to produce
+                    $\mathbf{z}_T$ before using VQ-GAN to produce the final
+                    sample.
+                \item[--] To demonstrate the scalability of our approach, we
+                    trained a VQ-GAN model from scratch on megapixel images -- 
+                    considerably higher than prior work. The loss function is:
+            \end{itemize}
+        }
+            {
+                \large
+                \centering
+        \begin{minipage}{0.49\linewidth}
             \begin{align*}
             \begin{split}
+                L_\text{VQ} &= \alpha_\text{VQ} \cdot (||\hat{\mathbf{z}} -
+                \mathbf{z}||^2 \\
+                            &+ ||sg[E(\mathbf{x})] - \mathbf{z}||^2_2 +
+                ||E(\mathbf{x}) - sg[\mathbf{z}]||^2_2)\\
                 L_\text{PIX} &= \alpha_\text{PIX} \cdot |\mathbf{x} -
                 \hat{\mathbf{x}}| \cdot \\
                 L_\text{GAN} &= \alpha_\text{GAN} \cdot \left(\log D(\mathbf{x}) + \log
@@ -176,66 +202,48 @@
             \end{split}
             \end{align*}
         \end{minipage}
-        \begin{minipage}{0.59\linewidth}
+        \hfill
+        \begin{minipage}{0.49\linewidth}
             \begin{align*}
             \begin{split}
-                L_\text{VQ} &= \alpha_\text{VQ} \cdot \left(||\hat{\mathbf{z}} -
-                \mathbf{z}||^2 + ||sg[E(\mathbf{x})] - \mathbf{z}||^2_2 +
-                ||E(\mathbf{x}) -
-                sg[\mathbf{z}]||^2_2\right)\\
                 \lambda &= \frac{\nabla_{G_{-1}}[L_\text{PIX} +
                 L_\text{PER}]}{\nabla_{G_{-1}}[L_\text{GAN}] + \epsilon}\\
-                \alpha_\text{PIX} &= 1.0,\; \alpha_\text{VQ} = 1.0,\; \alpha_\text{GAN} = 0.5,\; \alpha_\text{PER} = 1.0
+                \alpha_\text{PIX} &= 1.0,\; \alpha_\text{VQ} = 1.0,\\
+                \alpha_\text{GAN} &= 0.5,\; \alpha_\text{PER} = 1.0 \\
             \end{split}
             \end{align*}
         \end{minipage}
+            }
         \vspace{0.4cm}
-
+        {
         \Large
-        \textbf{Equation 1:} Loss function for our VQ-GAN model trained on $1024
-        \times 1024$ images.
-        \vspace{0.3cm}
-
-        The objective of this project was to push the efficiency of generative
-        models to their limit and expand the array of non-autoregressive methods
-        for image generation. By combining various methods -- each at the
-        pinnacle of efficiency in their respective areas. These include VQ-GAN, a
-        vector quantization model with an unparalleled rate of compression;
-        hourglass transformers, a highly scaleable attention model; and SUNDAE,
-        a fast, non-autoregressive text generative model.
-
-        Our primary contributions are as follows:
         \begin{itemize}
-            \item
-                The development of a non-autoregressive, non-adversarial
-                generative modelling framework with extremely flexible sampling
-                and capabilities for self-correction, self-stopping, conditional
-                generation, and arbitrary inpainting patterns. The model can be
-                directly configured for both low- and high-step sampling
-                scenarios, resulting in high quality and diverse samples in 
-                seconds of sampling time.
-
-            \item
-                Addressing flaws in the original formulation of SUNDAE and
-                hourglass transformers to be more suited for the modelling of
-                multi-dimensional discrete data. Though applied to discrete
-                latents in our work, the modifications are also applicable in a
-                wider context, such as to pixel-level modelling. We also
-                demonstrate the superiority of hierarchical transformers --
-                forming a key component in the scalability of our approach. 
-
-            \item
-                The scaling of VQ-GAN to extremely high resolution ($1024 \times
-                1024$) images of human faces. This resolution far exceeds
-                resolutions achieved in prior work with VQ-GAN. This allowed for
-                the \textbf{generation of megapixel images in as few as two
-                seconds} on a consumer-grade GPU when combined with our fast and
-                scalable generative framework. This is in contrast to prior
-                autoregressive methods and non-autoregressive diffusion methods
-                that take minutes to generate, or cannot scale to such
-                resolutions entirely.
-
+            \item[--] By applying our framework to compressed megapixel
+                representations, we obtained a fast and scaleable generative
+                model on megapixel images.
+            \item[--] Our method generates $1024 \times 1024$ samples in only
+                two seconds -- a wide margin faster than prior non-adversarial
+                methods which takes minutes to generate at this resolution.
         \end{itemize}
+        }
+
+        \begin{minipage}{0.75\linewidth}
+        \begin{tikzfigure}
+            \includegraphics[width=\linewidth]{resample.pdf}
+        \end{tikzfigure}
+        \end{minipage}
+        \hspace{-2cm}
+        \begin{minipage}{0.25\linewidth}
+            \Large
+            %\vspace{0.5cm}
+            \begin{itemize}
+                \item[--] As a result of our work, we also found flaws in the
+                    original formulation of hourglass transformers when used on
+                    multi-dimensional data.
+                \item[--] Our modifications have applications in a wider
+                    context, outside of generative modelling.
+            \end{itemize}
+        \end{minipage}
         \end{tcolorbox}
     }
 
@@ -247,31 +255,55 @@
             \includegraphics[width=0.49\linewidth]{imagenet-lakeside.png}
             \hfill
             \includegraphics[width=0.49\linewidth]{imagenet-valley.png}
-            \captionof{figure}{
-                $256 \times 256$ class-conditioned samples on ImageNet. The left
-                batch of samples are from the class ``Lakeside'' whereas the
-                right batch are from the class ``Valley''. We note, that our
-                approach can be extended to use text prompts as a conditioning
-                signal, yielding a text-to-image model.
-            }
+            %\captionof{figure}{
+                %$256 \times 256$ class-conditioned samples on ImageNet. The left
+                %batch of samples are from the class ``Lakeside'' whereas the
+                %right batch are from the class ``Valley''. We note, that our
+                %approach can be extended to use text prompts as a conditioning
+                %signal, yielding a text-to-image model.
+            %}
         \end{tikzfigure}
+        \vspace{-0.5cm}
+        {
+            \Large
+            \begin{itemize}
+                \item[--] $256 \times 256$ class-conditioned samples from our
+                    ImageNet model.
+                \item[--] Left and right batches are from classes ``Lakeside''
+                    and ``Valley'' respectively.
+                \item[--] Our approach is easily extensible to use text prompts,
+                    yielding a fast text-to-image generator.
+            \end{itemize}
+        }
         
-        \vspace{-1cm}
+        %\vspace{-1cm}
 
         \begin{tikzfigure}
             \includegraphics[width=0.49\linewidth]{inpaint-rand.png}
             \hfill
             \includegraphics[width=0.49\linewidth]{inpaint-block.png}
-            \captionof{figure}{
-                Representative inpainting results on FFHQ1024 using our trained
-                model. We demonstrate the superiority of NAR
-                methods for inpainting by using arbitrary inpainting masks,
-                including completely random (left) and large block masks
-                (right). Such patterns are difficult to inpaint with using 
-                autoregressive models, and cannot utilise the full context
-                available to them.
-            }
+            %\captionof{figure}{
+                %Representative inpainting results on FFHQ1024 using our trained
+                %model. We demonstrate the superiority of NAR
+                %methods for inpainting by using arbitrary inpainting masks,
+                %including completely random (left) and large block masks
+                %(right). Such patterns are difficult to inpaint with using 
+                %autoregressive models, and cannot utilise the full context
+                %available to them.
+            %}
         \end{tikzfigure}
+        \vspace{-0.5cm}
+        {
+            \Large
+            \begin{itemize}
+                \item[--] Example inpainting results using our FFHQ1024 model.
+                    We show multiple results given the same image-mask pair to
+                    demonstrate diversity of the outputs.
+                \item[--] NAR methods allow for arbitrary inpainting patterns to
+                    be easily used. In contrast, AR models cannot easily handle all
+                    patterns, nor can they use all context when inpainting.
+            \end{itemize}
+        }
         \end{tcolorbox}
     }
 
