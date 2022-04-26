@@ -1,4 +1,4 @@
-\documentclass[14pt,margin=0.5in,innermargin=0in,blockverticalspace=-0.1in,colspace=-1.0cm]{tikzposter}
+\documentclass[14pt,margin=0.5in,innermargin=0in,blockverticalspace=-0.1in,colspace=-1.2cm]{tikzposter}
 \geometry{paperwidth=841mm,paperheight=594mm}
 \usepackage[utf8]{inputenc}
 \usepackage{lmodern}
@@ -20,7 +20,7 @@
 \usepackage{multicol}
 
 \usepackage{caption}
-\captionsetup[figure]{font=large,labelfont=bf}
+\captionsetup[figure]{font=Large,labelfont=bf}
 
 \addbibresource{references.bib}
 
@@ -36,13 +36,10 @@
 \usepackage[T1]{fontenc}
 
 \title{Megapixel Image Generation with Step-unrolled Denoising Autoencoders}
-\author{\textbf{Alex F. McKinney}\textsuperscript{1},
-\textbf{Chris G. Willcocks}\textsuperscript{1,2} 
+\author{\textbf{Alex F. McKinney}, \textbf{Chris G. Willcocks}
 }
-\institute{\textsuperscript{1}Department of Computer Science, Durham University\\
-            \textsuperscript{2}Project Supervisor
-            }
-\titlegraphic{\includegraphics[width=0.16\linewidth]{durham-logo.png}}
+\institute{ }
+%\titlegraphic{\includegraphics[width=0.16\linewidth]{durham-logo.png}}
 
 % begin document
 \begin{document}
@@ -74,10 +71,10 @@
 
 \begin{columns}
 
-    \column{0.3}
+    \column{0.25}
     \block{}{
         \vspace{-1cm}
-        \begin{tcolorbox}[boxsep=0pt,top=0cm,bottom=1.1cm,adjusted title={\Large\bf
+        \begin{tcolorbox}[boxsep=0pt,top=0cm,bottom=1.1cm,adjusted title={\huge\bf
             Background},colbacktitle=colorOne]
         \begin{tikzfigure}
             \includegraphics[width=1.0\linewidth]{AR-NAR.pdf}
@@ -127,10 +124,10 @@
         \end{tcolorbox}
     }
     
-    \column{0.4}
+    \column{0.5}
     \block{}{
         \vspace{-1cm}
-        \begin{tcolorbox}[boxsep=0pt,top=0cm,adjusted title={\Large\bf Proposed Method},colbacktitle=colorOne]
+        \begin{tcolorbox}[boxsep=0pt,top=0cm,adjusted title={\huge\bf Proposed Method},colbacktitle=colorOne]
         \begin{tikzfigure}
             \includegraphics[width=0.99\linewidth]{overall.pdf}
         \end{tikzfigure}
@@ -150,7 +147,7 @@
                 (non-adversarial) non-autoregressive models, using typically
                 50-100 steps ($\approx$ 2 seconds) during sampling.
             }
-        \vspace{-0.6cm}
+        \vspace{-0.3cm}
 
         \begin{minipage}{0.40\linewidth}
             \begin{align*}
@@ -178,26 +175,11 @@
         \end{minipage}
         \vspace{0.4cm}
 
+        \Large
         \textbf{Equation 1:} Loss function for our VQ-GAN model trained on $1024
         \times 1024$ images.
         \vspace{0.3cm}
 
-        %\begin{align}
-        %\begin{split}
-            %L_\text{PIX} &= \alpha_\text{PIX} \cdot |\image - \hat{\image}| \cdot \\
-            %L_\text{VQ} &= \alpha_\text{VQ} \cdot \left(||\hat{\latent} -
-            %\latent||^2 + ||sg[\vqganEncoder(x)] - \latent||^2_2 + ||\vqganEncoder(x) -
-            %sg[\latent]||^2_2\right)\\
-            %L_\text{GAN} &= \alpha_\text{GAN} \cdot \left(\log D(x) + \log
-            %(1-D(\hat{x}))\right) \\
-            %\lambda &= \frac{\nabla_{G_{-1}}[L_\text{PIX} +
-            %L_\text{PER}]}{\nabla_{G_{-1}}[L_\text{GAN}] + \epsilon}\\
-            %L &= L_\text{VQ} + \lambda \cdot L_\text{GAN}\\
-            %\alpha_\text{PIX} &= 1.0,\; \alpha_\text{VQ} = 1.0,\; \alpha_\text{GAN} = 0.5,\; \alpha_\text{PER} = 1.0
-        %\end{split}
-        %\end{align}
-
-        \large
         The objective of this project was to push the efficiency of generative
         models to their limit and expand the array of non-autoregressive methods
         for image generation. By combining various methods -- each at the
@@ -241,10 +223,10 @@
         \end{tcolorbox}
     }
 
-    \column{0.3}
+    \column{0.25}
     \block{}{
         \vspace{-1cm}
-        \begin{tcolorbox}[boxsep=0pt,top=0cm,bottom=1.0cm,adjusted title={\Large\bf Results},colbacktitle=colorOne]
+        \begin{tcolorbox}[boxsep=0pt,top=0cm,bottom=0.0cm,adjusted title={\huge\bf Results},colbacktitle=colorOne]
         \begin{tikzfigure}
             \includegraphics[width=0.49\linewidth]{imagenet-lakeside.png}
             \hfill
@@ -277,16 +259,15 @@
         \end{tcolorbox}
     }
 
-    % TODO: potentially a manual bibliography of relevant literature
     \block{}{
-        \vspace{-1cm}
-        \begin{tcolorbox}[boxsep=0pt,top=0cm,adjusted title={\Large
+        \vspace{-1.5cm}
+        \begin{tcolorbox}[boxsep=0pt,top=0cm,adjusted title={\huge\bf
             References},colbacktitle=colorOne]
         \nocite{*}
         \vspace{0.4cm}
-        \begin{footnotesize}
+        %\begin{footnotesize}
         \printbibliography[heading=none]
-        \end{footnotesize}
+        %\end{footnotesize}
         \end{tcolorbox}
     }
 \end{columns}
