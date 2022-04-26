@@ -35,6 +35,9 @@
 \newcommand{\Tr}{\text{Tr}}
 \usepackage[T1]{fontenc}
 
+\usepackage{enumitem}
+\setitemize{noitemsep,topsep=0pt,parsep=0pt,partopsep=0pt}
+
 \title{Megapixel Image Generation with Step-unrolled Denoising Autoencoders}
 \author{\textbf{Alex F. McKinney}, \textbf{Chris G. Willcocks}
 }
@@ -71,7 +74,7 @@
 
 \begin{columns}
 
-    \column{0.25}
+    \column{0.3}
     \block{}{
         \vspace{-1cm}
         \begin{tcolorbox}[boxsep=0pt,top=0cm,bottom=1.1cm,adjusted title={\huge\bf
@@ -80,51 +83,64 @@
             \includegraphics[width=1.0\linewidth]{AR-NAR.pdf}
         \end{tikzfigure}
         \vspace{-0.5cm}
-        \captionof{figure}{
-                Autoregressive sampling (left) is defined in terms of the
-                probabilistic chain rule, so sampling is done iteratively with
-                complexity $\mathcal{O}(n)$. Non-autoregressive sampling (right)
-                can sample an arbitrary number of elements in parallel, so
-                number of steps does not scale with input size. It can also use
-                the full context available to it, resulting in better quality
-                samples and flexible inpainting. However, existing NAR methods
-                still typically require many network evaluations to produce
-                meaningful samples.
+        %\captionof{figure}{
                 %Autoregressive sampling (left) is defined in terms of the
-                %probabilistic chain rule, meaning that sampling is done
-                %iteratively -- one element at a time -- so not to violate
-                %causality. Non-autoregressive sampling (right) does not have
-                %such constraints, and can sample an arbitrary number of elements
-                %in parallel. Crucially, this means the iteration complexity of
-                %sampling does not scale directly with data dimensionality, allowing
-                %massive scaleability. In addition, it can use the full context
-                %available to it, in order to make predictions, allowing for
-                %better quality samples and more flexible inpainting. Despite
-                %such advantages, non-adversarial, non-autoregressive generative
-                %models have not seen widespread adoption, due to requiring
-                %many sampling steps -- potentially thousands.
-            }
+                %probabilistic chain rule, so sampling is done iteratively with
+                %complexity $\mathcal{O}(n)$. Non-autoregressive sampling (right)
+                %can sample an arbitrary number of elements in parallel, so
+                %number of steps does not scale with input size. It can also use
+                %the full context available to it, resulting in better quality
+                %samples and flexible inpainting. However, existing NAR methods
+                %still typically require many network evaluations to produce
+                %meaningful samples.
+            %}
+
+        {
+            \Large
+            \begin{itemize}
+                \item Autoregressive sampling (left) is defined by the
+                    probabilistic chain rule. This means sampling is done
+                    iteratively with complexity $\mathcal{O}(n)$.
+                \item Non-autoregressive sampling (right) samples an arbitrary
+                    number of elements in parallel and does not scale with input
+                    size $n$, but may still require thousands of evaluations.
+                \item AR sampling is limited to using past context, whereas NAR
+                    can use all context available to it.
+            \end{itemize}
+        }
         
-        \vspace{-1cm}
+        \vspace{0.0cm}
 
         \begin{tikzfigure}
             \includegraphics[width=0.99\linewidth]{recon.pdf}
         \end{tikzfigure}
         \vspace{-1.0cm}
-        \captionof{figure}{
-                VQ-GAN is used to reduce computational requirements for training
-                and sampling of generative models by acting as a compression
-                model. VQ-GAN does not always faithfully reproduce the input
-                image, though outputs are perceptually valid. For example, left
-                shows a change in eye colour and the concealment of a piercing
-                by adjusting hair position. Middle has its hair texture changed.
-                Right has piercings removed and text corruption.
-            }
+        %\captionof{figure}{
+                %VQ-GAN is used to reduce computational requirements for training
+                %and sampling of generative models by acting as a compression
+                %model. VQ-GAN does not always faithfully reproduce the input
+                %image, though outputs are perceptually valid. For example, left
+                %shows a change in eye colour and the concealment of a piercing
+                %by adjusting hair position. Middle has its hair texture changed.
+                %Right has piercings removed and text corruption.
+            %}
+
+        {
+            \Large
+            \begin{itemize}
+                \item VQ-GAN is used to reduce computational requirements in
+                    generative models by compressing the input.
+                \item It offers a higher compression rate than prior work, but
+                    does not always faithfully reconstruct the input, for
+                    example the left changes the eye colour, and the right has
+                    piercings removed.
+            \end{itemize}
+        }
             
         \end{tcolorbox}
     }
     
-    \column{0.5}
+    \column{0.4}
     \block{}{
         \vspace{-1cm}
         \begin{tcolorbox}[boxsep=0pt,top=0cm,adjusted title={\huge\bf Proposed Method},colbacktitle=colorOne]
@@ -223,7 +239,7 @@
         \end{tcolorbox}
     }
 
-    \column{0.25}
+    \column{0.3}
     \block{}{
         \vspace{-1cm}
         \begin{tcolorbox}[boxsep=0pt,top=0cm,bottom=0.0cm,adjusted title={\huge\bf Results},colbacktitle=colorOne]
