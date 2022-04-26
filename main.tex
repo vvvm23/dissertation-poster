@@ -58,9 +58,9 @@
     \end{tikzfigure}
     \captionof{figure}{
             \centering
-            $1024 \times 1024$ samples from our FFHQ1024 model. Resulting
-            samples are diverse and of high-fidelity. Each sample was generated
-            in $\approx 2$ seconds on a consumer-grade GPU (GTX 1080Ti), in
+            Samples from our FFHQ1024 model. Resulting samples are diverse and
+            of high-fidelity. \textbf{Each $\bf 1024 \times 1024$ sample was
+            generated in two seconds} on a consumer-grade GPU (GTX 1080Ti), in
             contrast to existing approaches at this resolution, which take
             minutes to generate. To our knowledge, this is the fastest sampling,
             non-adversarial generative framework at this resolution.
@@ -77,7 +77,7 @@
     \column{0.3}
     \block{}{
         \vspace{-1cm}
-        \begin{tcolorbox}[boxsep=0pt,top=0cm,bottom=1.1cm,adjusted title={\huge\bf
+        \begin{tcolorbox}[boxsep=0pt,top=0cm,bottom=0.2cm,adjusted title={\huge\bf
             Background},colbacktitle=colorOne]
         \begin{tikzfigure}
             \includegraphics[width=1.0\linewidth]{AR-NAR.pdf}
@@ -98,14 +98,14 @@
         {
             \Large
             \begin{itemize}
-                \item[--] Autoregressive sampling (left) is defined by the
+                \item[--] \textbf{Autoregressive (AR)} sampling (left) is defined by the
                     probabilistic chain rule. This means sampling is done
                     iteratively with complexity $\mathcal{O}(n)$.
-                \item[--] Non-autoregressive sampling (right) samples an arbitrary
+                \item[--] \textbf{Non-autoregressive (NAR)} sampling (right) samples an arbitrary
                     number of elements in parallel and does not scale with input
-                    size $n$, but may still require thousands of evaluations.
+                    size $n$, but may still require thousands of iterations.
                 \item[--] AR sampling is limited to using past context, whereas NAR
-                    can use all context available to it.
+                    uses all context available to it.
             \end{itemize}
         }
         
@@ -128,7 +128,7 @@
         {
             \Large
             \begin{itemize}
-                \item[--] VQ-GAN is used to reduce computational requirements in
+                \item[--] \textbf{VQ-GAN} is used to reduce computational requirements in
                     generative models by compressing the input.
                 \item[--] It offers a higher compression rate than prior work, but
                     does not always faithfully reconstruct the input, for
@@ -167,7 +167,7 @@
 
         {
             \Large
-            An overview of our proposed training and sampling method:
+            \textbf{An overview of our proposed training and sampling method}:
             \begin{itemize}
                 \item[--] Above the dashed line shows the training process,
                     beginning by sampling a corrupted sample $\mathbf{z}_0 \sim
@@ -181,7 +181,7 @@
                     sample.
                 \item[--] To demonstrate the scalability of our approach, we
                     trained a VQ-GAN model from scratch on megapixel images -- 
-                    considerably higher than prior work. The loss function is:
+                    \textbf{considerably larger than prior work}. The loss function is:
             \end{itemize}
         }
             {
@@ -218,12 +218,12 @@
         {
         \Large
         \begin{itemize}
-            \item[--] By applying our framework to compressed megapixel
+            \item[--] By applying our framework to discrete latent
                 representations, we obtained a fast and scaleable generative
                 model on megapixel images.
             \item[--] Our method generates $1024 \times 1024$ samples in only
-                two seconds -- a wide margin faster than prior non-adversarial
-                methods which takes minutes to generate at this resolution.
+                \textbf{two seconds} -- a wide margin faster than prior non-adversarial
+                methods which take \textbf{minutes} to generate at this resolution.
         \end{itemize}
         }
 
@@ -240,8 +240,8 @@
                 \item[--] As a result of our work, we also found flaws in the
                     original formulation of hourglass transformers when used on
                     multi-dimensional data.
-                \item[--] Our modifications have applications in a wider
-                    context, outside of generative modelling.
+                \item[--] Our modifications have \textbf{applications in a wider
+                    context}, outside of generative modelling.
             \end{itemize}
         \end{minipage}
         \end{tcolorbox}
@@ -267,12 +267,12 @@
         {
             \Large
             \begin{itemize}
-                \item[--] $256 \times 256$ class-conditioned samples from our
+                \item[--] $256 \times 256$ \textbf{class-conditioned} samples from our
                     ImageNet model.
                 \item[--] Left and right batches are from classes ``Lakeside''
                     and ``Valley'' respectively.
                 \item[--] Our approach is easily extensible to use text prompts,
-                    yielding a fast text-to-image generator.
+                    \textbf{yielding a fast text-to-image generator}.
             \end{itemize}
         }
         
@@ -298,8 +298,8 @@
             \begin{itemize}
                 \item[--] Example inpainting results using our FFHQ1024 model.
                     We show multiple results given the same image-mask pair to
-                    demonstrate diversity of the outputs.
-                \item[--] NAR methods allow for arbitrary inpainting patterns to
+                    \textbf{demonstrate diversity in the outputs}.
+                \item[--] NAR methods allow for \textbf{arbitrary inpainting patterns} to
                     be easily used. In contrast, AR models cannot easily handle all
                     patterns, nor can they use all context when inpainting.
             \end{itemize}
