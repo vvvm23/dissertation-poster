@@ -77,7 +77,7 @@
     \column{0.3}
     \block{}{
         \vspace{-1cm}
-        \begin{tcolorbox}[boxsep=0pt,top=0cm,bottom=0.2cm,adjusted title={\huge\bf
+        \begin{tcolorbox}[boxsep=0pt,top=0cm,bottom=0.1cm,adjusted title={\huge\bf
             Background},colbacktitle=colorOne]
         \begin{tikzfigure}
             \includegraphics[width=1.0\linewidth]{AR-NAR.pdf}
@@ -103,13 +103,14 @@
                     iteratively with complexity $\mathcal{O}(n)$.
                 \item[--] \textbf{Non-autoregressive (NAR)} sampling (right) samples an arbitrary
                     number of elements in parallel and does not scale with input
-                    size $n$, but may still require thousands of iterations.
+                    size $n$, but may still require thousands of iterations
+                    ($\mathcal{O}(1)$ with potentially a large constant).
                 \item[--] AR sampling is \textbf{limited to using past context}, whereas NAR
                     uses \textbf{all context available to it}.
             \end{itemize}
         }
         
-        \vspace{0.0cm}
+        \vspace{-0.8cm}
 
         \begin{tikzfigure}
             \includegraphics[width=0.99\linewidth]{recon.pdf}
@@ -129,10 +130,11 @@
             \Large
             \begin{itemize}
                 \item[--] \textbf{VQ-GAN} is used to reduce computational requirements in
-                    generative models by compressing the input.
+                    generative models by compressing the input into a
+                    \textbf{discrete space}.
                 \item[--] It offers a higher compression rate than prior work, but
                     does not always faithfully reconstruct the input, for
-                    example the left changes the eye colour, and the right has
+                    example the left has eye colour changed, and the right has
                     piercings removed.
             \end{itemize}
         }
@@ -143,7 +145,7 @@
     \column{0.4}
     \block{}{
         \vspace{-1cm}
-        \begin{tcolorbox}[boxsep=0pt,top=0cm,bottom=0.6cm,adjusted title={\huge\bf Proposed Method},colbacktitle=colorOne]
+        \begin{tcolorbox}[boxsep=0pt,top=0cm,bottom=0.0cm,adjusted title={\huge\bf Proposed Method},colbacktitle=colorOne]
         \begin{tikzfigure}
             \includegraphics[width=0.99\linewidth]{overall.pdf}
         \end{tikzfigure}
@@ -172,12 +174,12 @@
                 \item[--] Above the dashed line shows the training process,
                     beginning by sampling a corrupted sample $\mathbf{z}_0 \sim
                     q( \cdot \vert \mathbf{z})$. SUNDAE denoises for 2 to 3
-                    steps, and averages cross entropy losses at each step in the
+                    steps and averages the cross entropy losses across all steps in the
                     Markov chain.
                 \item[--] Below the dotted line shows the sampling process,
                     beginning by sampling $\mathbf{z}_0$ from a uniform prior
                     distribution. SUNDAE denoises for $T \gg 3$ steps to produce
-                    $\mathbf{z}_T$ before using VQ-GAN to produce the final
+                    $\mathbf{z}_T$ before using VQ-GAN to decode the final
                     sample.
                 \item[--] To demonstrate the scalability of our approach, we
                     trained a VQ-GAN model from scratch on megapixel images -- 
@@ -235,11 +237,11 @@
         \hspace{-2cm}
         \begin{minipage}{0.25\linewidth}
             \Large
-            %\vspace{0.5cm}
+            \vspace{0.5cm}
             \begin{itemize}
                 \item[--] As a result of our work, we also found flaws in the
-                    original formulation of hourglass transformers when used on
-                    multi-dimensional data.
+                    original formulation of hourglass transformers when applied
+                    to multi-dimensional data.
                 \item[--] Our modifications have \textbf{applications in a wider
                     context}, outside of generative modelling.
             \end{itemize}
@@ -271,7 +273,7 @@
                     ImageNet model.
                 \item[--] Left and right batches are from classes ``Lakeside''
                     and ``Valley'' respectively.
-                \item[--] Our approach is easily extensible to use text prompts,
+                \item[--] Our approach is easily extendable to use text prompts,
                     \textbf{yielding a fast text-to-image generator}.
             \end{itemize}
         }
